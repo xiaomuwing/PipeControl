@@ -1,0 +1,5 @@
+﻿:sens:volt:ac:rang:auto 1, (@101)
+:sens:volt:ac:det:band 300, (@101)
+:unit:volt:ac V, (@101)
+:sens:volt:ac:aver:state off
+:sens:volt:ac:nplc 0.01, (@101)

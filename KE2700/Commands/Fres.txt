@@ -1,0 +1,6 @@
+﻿:calc3:lim2:state 0, (@101)
+:calc3:lim1:state 0, (@101)
+:calc1:state 0, (@101)
+:sens:fres:rang:auto 1, (@101)
+:sens:fres:aver:state OFF, (@101)
+:sens:fres:nplc 0.05, (@101)

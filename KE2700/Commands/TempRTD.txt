@@ -1,0 +1,8 @@
+﻿:calc3:lim1:state 0, (@101)
+:calc1:state 0, (@101)
+:calc3:lim2:state 0, (@101)
+:sens:temp:tran frtd, (@101)
+:sens:temp:ref 0, (@101)
+:sens:temp:ref:state 0, (@101)
+:sens:temp:frtd:type RTDType, (@101)
+:sens:temp:nplc 1, (@101)

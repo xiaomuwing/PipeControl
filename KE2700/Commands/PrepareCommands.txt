@@ -1,0 +1,10 @@
+﻿*cls
+:rout:open:all
+:rout:scan:lsel none
+:init:cont off
+:trac:feed none
+:trac:cle
+:unit:temp c
+:syst:azer:stat off
+:sens:temp:aver:state off
+:syst:lsyn 0

@@ -1,0 +1,20 @@
+﻿:init:cont off
+:rout:scan (@channelList)
+:rout:close:acon off
+:rout:mon:stat off
+:rout:scan:tso imm
+:rout:scan:lsel int
+:trac:cle
+:trac:cle:auto on
+:trac:poin 45
+:trac:feed sens
+:trac:feed:cont always
+:trac:tst:form abs
+:trig:sour tim
+:trig:tim 1
+:trig:coun inf
+:trig:del:auto on
+:form:elem read,tst,chan
+:syst:tst:type rel
+:samp:coun channelCount
+init
