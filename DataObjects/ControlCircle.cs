@@ -41,7 +41,6 @@ namespace DataObjects
         public double uout = 0;
         public async Task ControlDC()
         {
-
             Log.WriteLog(string.Format("-----ID={0}  开始控制---------------------", ID), "CtrlDC", "Control");
             foreach (ControlLine line in Lines)
             {
@@ -93,7 +92,6 @@ namespace DataObjects
                         Log.WriteLog(string.Format("ControlDataCount = {0}", tempChannel.ControlDataCount), "CtrlDC", "Control");
                         if (tempChannel.ControlDataCount == 1)
                         {
-                            Log.WriteLog(string.Format("第一次判断", tempChannel.LastValue, line.TempMax), "CtrlDC", "Control");
                             if (tempChannel.LastValue < line.TempMax)
                             {
                                 Log.WriteLog(string.Format("第一次判断，当前值{0}小于当前执行过程设定的最大温度{1}，指定电源输出", tempChannel.LastValue, line.TempMax), "CtrlDC", "Control");

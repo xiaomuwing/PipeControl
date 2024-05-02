@@ -94,6 +94,7 @@ namespace InstrumentsCtrl
                 await SetCurrentOutput(0);
                 await SetVoltOutput(0);
                 await SetOutputOFF();
+                SendCommand("SYST:LOC");
                 MyCOM.Close();
                 Opened = false;
             }
@@ -115,6 +116,28 @@ namespace InstrumentsCtrl
         public void Dispose()
         {
             MyCOM.Dispose();
+        }
+
+        public async Task<bool> IsOnline()
+        {
+            SendCommand("MEAS:VOLT?");
+            await Task.Delay(100);
+            byte[] bs = new byte[MyCOM.BytesToRead];
+            MyCOM.Read(bs, 0, bs.Length);
+            var volt = Encoding.UTF8.GetString(bs).Split('\n')[0];
+            if(float.TryParse(volt, out _))
+            {
+                if(!Opened)
+                {
+                    MyCOM.Close();
+                    await Open();
+                    //await SetOutputOn();
+                }
+                Opened = true;
+                return true;
+            }
+            Opened = false;
+            return false;
         }
     }
 }

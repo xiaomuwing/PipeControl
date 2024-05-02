@@ -86,6 +86,11 @@ namespace InstrumentsCtrl
                 await SetRemote(false);
             }
         }
+        public async Task<bool> IsOnline()
+        {
+            await Task.Delay(100);
+            return true;
+        }
         public async void Dispose()
         {
             await Close();

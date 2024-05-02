@@ -32,6 +32,7 @@ namespace InstrumentsCtrl
                 try
                 {
                     await power.Open();
+                    await power.SetOutputOn();
                     chk_OpenOrClose.Checked = false;
                 }
                 catch
@@ -46,18 +47,18 @@ namespace InstrumentsCtrl
         {
             TopMost = chk_TopMost.Checked;
         }
-        private void chk_OpenOrClose_CheckedChanged(object sender, EventArgs e)
+        private async void chk_OpenOrClose_CheckedChanged(object sender, EventArgs e)
         {
             if (!chk_OpenOrClose.Checked)
             {
-                power.SetOutputOFF();
-                power.Close();
+                await power.SetOutputOFF();
+                await power.Close();
                 groupBox1.Enabled = false;
             }
             else
             {
-                power.Open();
-                power.SetOutputOn();
+                await power.Open();
+                await power.SetOutputOn();
                 groupBox1.Enabled = true;
             }
         }
@@ -92,6 +93,13 @@ namespace InstrumentsCtrl
         {
             //txt_CurrentValue.Text = power.CurrentI.ToString();
             //txt_VoltValue.Text = power.CurrentV.ToString();
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            //var oldOnline = power.Opened;
+            //var online = await power.IsOnline();
+            //label3.Text = online.ToString();
         }
     }
 }

@@ -32,6 +32,7 @@ namespace InstrumentsCtrl
             this.components = new System.ComponentModel.Container();
             this.chk_OpenOrClose = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.btn_Output = new System.Windows.Forms.Button();
             this.txt_VoltValue = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,13 +41,13 @@ namespace InstrumentsCtrl
             this.lbl_Info = new System.Windows.Forms.Label();
             this.chk_TopMost = new System.Windows.Forms.CheckBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // chk_OpenOrClose
             // 
             this.chk_OpenOrClose.AutoSize = true;
+            this.chk_OpenOrClose.Enabled = false;
             this.chk_OpenOrClose.Location = new System.Drawing.Point(16, 48);
             this.chk_OpenOrClose.Name = "chk_OpenOrClose";
             this.chk_OpenOrClose.Size = new System.Drawing.Size(112, 24);
@@ -63,13 +64,22 @@ namespace InstrumentsCtrl
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txt_CurrentValue);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Enabled = false;
             this.groupBox1.Location = new System.Drawing.Point(14, 78);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(272, 182);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "输出控制";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(11, 141);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(132, 26);
+            this.textBox1.TabIndex = 16;
+            this.textBox1.Text = "0";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btn_Output
             // 
@@ -145,31 +155,21 @@ namespace InstrumentsCtrl
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(11, 141);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(132, 26);
-            this.textBox1.TabIndex = 16;
-            this.textBox1.Text = "0";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
             // frm_Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(300, 274);
+            this.ClientSize = new System.Drawing.Size(298, 276);
             this.Controls.Add(this.chk_TopMost);
             this.Controls.Add(this.chk_OpenOrClose);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lbl_Info);
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(316, 314);
+            this.MaximumSize = new System.Drawing.Size(314, 316);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(316, 314);
+            this.MinimumSize = new System.Drawing.Size(314, 316);
             this.Name = "frm_Config";
             this.Text = "电源状态监控";
             this.TopMost = true;

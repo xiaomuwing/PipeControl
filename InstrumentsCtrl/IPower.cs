@@ -62,6 +62,7 @@ namespace InstrumentsCtrl
         /// </summary>
         Task SetOutputOFF();
         Task GetVolt();
+        Task<bool> IsOnline();
         /// <summary>
         /// 断开连接设备
         /// </summary>

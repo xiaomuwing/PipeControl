@@ -101,7 +101,11 @@ namespace InstrumentsCtrl
             b2[b.Length] = 10;
             return b2;
         }
-
+        public async Task<bool> IsOnline()
+        {
+            await Task.Delay(100);
+            return true;
+        }
         public async Task GetVolt()
         {
             await Task.Delay(1);

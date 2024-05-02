@@ -13,7 +13,7 @@ namespace DataObjects
 {
     [Serializable]
     [JsonObject(MemberSerialization.OptOut)]
-    public sealed class Experiment : IDisposable
+    public sealed class Experiment
     {
         public event EventHandler OnDataRefresh;
         public event EventHandler OnReloadEnd;
@@ -89,7 +89,7 @@ namespace DataObjects
         [JsonIgnore]
         public string SavingDataPath { get; private set; }
         [JsonIgnore]
-        public  ControlCircle CurrentCircle { get; private set; }
+        public ControlCircle CurrentCircle { get; private set; }
         [JsonIgnore]
         public TimeSpan ControlLast { get; private set; }
         private readonly MMTimer freshDataTimer = new();
@@ -291,14 +291,14 @@ namespace DataObjects
         private async void FreshDataTimer_Tick(object sender, EventArgs e)
         {
             GetCurrentTemp();
-     
+
             if (!IsControl)
             {
                 GetCurrentDC();
                 OnDataRefresh?.Invoke(this, new EventArgs());
                 return;
             }
-            
+
             ControlLast += TimeSpan.FromSeconds(XDelta / 1000);
             //var tmp = GetTempChannels()[0];
             //var cnt = tmp.ControlDataCount;
@@ -395,19 +395,19 @@ namespace DataObjects
         private void GetCurrentDC()
         {
             var channels = GetDCChannels();
-            foreach(Channel channel in channels)
+            foreach (Channel channel in channels)
             {
                 if (channel == null)
                 {
                     continue;
                 }
                 var power = Instruments.GetPower(channel.HardwareDeviceAddress, channel.HardwareChannelAddress);
-                if(power is null)
+                if (power is null)
                 {
                     channel.AddData(0, 0, ChannelStatus.无设备, IsSavingData);
                     continue;
                 }
-                if(!power.Opened)
+                if (!power.Opened)
                 {
                     channel.AddData(0, 0, ChannelStatus.断开连接, IsSavingData);
                     continue;
@@ -427,7 +427,7 @@ namespace DataObjects
             foreach (var circle in ControlCircles)
             {
                 circle.Parent = this;
-                
+
             }
             var c = ControlCircles[0];
             foreach (var line in c.Lines)
@@ -523,7 +523,7 @@ namespace DataObjects
                 {
                     var dc = GetChannelBySN(sn);
                     var power = Instruments.GetPower(dc.HardwareDeviceAddress, dc.HardwareChannelAddress);
-                    if(!power.Opened)
+                    if (!power.Opened)
                     {
                         continue;
                     }
@@ -545,7 +545,7 @@ namespace DataObjects
                 {
                     var dc = GetChannelBySN(sn);
                     var power = Instruments.GetPower(dc.HardwareDeviceAddress, dc.HardwareChannelAddress);
-                    if(!power.Opened)
+                    if (!power.Opened)
                     {
                         dc.AddData(0, 0, ChannelStatus.断开连接, IsSavingData);
                         continue;
@@ -553,11 +553,10 @@ namespace DataObjects
                     await power.SetOutputOFF();
                     dc.AddData(0, 0, ChannelStatus.正常, IsSavingData);
                     dc.Enabled = false;
-                    
                 }
             }
         }
-        public void Close()
+        public async Task Close()
         {
             freshDataTimer?.Stop();
             foreach (Channel channel in Channels)
@@ -566,20 +565,7 @@ namespace DataObjects
             }
             Channels.Clear();
             ControlCircles.Clear();
-            Instruments?.Dispose();
-        }
-        public void Dispose()
-        {
-            freshDataTimer?.Stop();
-            freshDataTimer.Dispose();
-            foreach (Channel channel in Channels)
-            {
-                channel.DisposeDChannel();
-            }
-            Channels.Clear();
-            ControlCircles.Clear();
-            Instruments?.Dispose();
-            
+            await Instruments?.Close();
         }
     }
 }

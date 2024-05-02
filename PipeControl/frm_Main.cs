@@ -37,7 +37,6 @@ namespace PipeControl
 
             Load += Frm_Main_Load;
             FormClosing += Frm_Main_FormClosing;
-            FormClosed += Frm_Main_FormClosed;
             HandleDestroyed += Frm_Main_HandleDestroyed;
             lbl_CollaspDevice.Click += Lbl_CollaspDevice_Click;
 
@@ -119,7 +118,7 @@ namespace PipeControl
                 column.SortMode = DataGridViewColumnSortMode.Programmatic;
             }
         }
-        private void Frm_Main_FormClosing(object sender, FormClosingEventArgs e)
+        private async void Frm_Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (myExperiment == null)
                 return;
@@ -140,11 +139,9 @@ namespace PipeControl
             if (myExperiment != null)
             {
                 myExperiment.OnDataRefresh -= MyExperiment_OnDataRefresh;
+                await myExperiment.Close();
+                await Task.Delay(1000);
             }
-        }
-        private void Frm_Main_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            myExperiment?.Dispose();
         }
         private void Frm_Main_HandleDestroyed(object sender, EventArgs e)
         {
@@ -864,9 +861,9 @@ namespace PipeControl
             myExperiment.Save();
             MessageBox.Show("试验保存成功！", "保存试验", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-        private void Btn_CloseExperiment_Click(object sender, EventArgs e)
+        private async void Btn_CloseExperiment_Click(object sender, EventArgs e)
         {
-            myExperiment?.Dispose();
+            await myExperiment?.Close();
             pnl_Experiment.Visible = false;
             btn_New.Enabled = true;
             btn_OpenExperiment.Enabled = true;
@@ -1023,14 +1020,7 @@ namespace PipeControl
             }
             myExperiment.Instruments = new();
             myExperiment.Instruments.Powers = Experiment.GetPowers(myExperiment.GetDCChannels());
-            try
-            {
-                foreach (var power in myExperiment.Instruments.Powers)
-                {
-                    await power.Open();
-                }
-            }
-            catch { }
+            await myExperiment.Instruments.Open();
             foreach (var device in Experiment.GetKEDevices(myExperiment.GetTempChannels()))
             {
                 myExperiment.Instruments.KECtrl.AddDevice(device);

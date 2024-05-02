@@ -87,7 +87,8 @@ namespace InstrumentsCtrl
                 await SetCurrentOutput(0);
                 await SetVoltOutput(0);
                 SetRemote(false);
-                await Task.Delay(50);
+                await Task.Delay(80);
+                await SetOutputOFF();
                 MyCOM.Close();
                 Opened = false;
             }
@@ -127,6 +128,27 @@ namespace InstrumentsCtrl
         {
             await Task.Delay(1);
             return;
+        }
+
+        public async Task<bool> IsOnline()
+        {
+            MyCOM.DiscardInBuffer();
+            List<byte> bs = new() { 0xAA, EquipmentID, 0x31, 0x01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            SendCommand(bs);
+            await Task.Delay(80);
+            if (MyCOM.BytesToRead == 26)
+            {
+                if(!Opened)
+                {
+                    MyCOM.Close();
+                    await Open();
+                    //await SetOutputOn();
+                }
+                Opened = true;
+                return true;
+            }
+            Opened = false;
+            return false;
         }
     }
 }
